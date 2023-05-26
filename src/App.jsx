@@ -17,11 +17,16 @@ class App extends Component {
     this.setState({ searchInput: e.target.value });
   };
 
+  onTempInput = (e) => {
+    this.setState({ tempInput: e.target.value });
+  };
+
   getFilteredList = () => {
-    const { weather, searchInput } = this.state;
+    const { weather, searchInput, tempInput } = this.state;
 
     let filteredList = [...weather.list];
 
+    //filter by search
     if (searchInput) {
       filteredList = filteredList.filter((item) => {
         if (
@@ -33,6 +38,21 @@ class App extends Component {
         }
       });
     }
+
+    //sort by temp
+    if (tempInput === "asc") {
+      filteredList.sort((itemOne, itemTwo) => {
+        if (itemOne.main.temp > itemTwo.main.temp) return 1;
+        if (itemOne.main.temp < itemTwo.main.temp) return -1;
+      });
+    } else if (tempInput === "desc") {
+      filteredList.sort((itemOne, itemTwo) => {
+        if (itemOne.main.temp > itemTwo.main.temp) return -1;
+        if (itemOne.main.temp < itemTwo.main.temp) return 1;
+      });
+    }
+
+    // return the result of the filter and the sort
 
     return filteredList;
   };
@@ -48,6 +68,7 @@ class App extends Component {
       <Weather
         list={this.getFilteredList()}
         onSearchInput={this.onSearchInput}
+        onTempInput={this.onTempInput}
       />
     );
   }

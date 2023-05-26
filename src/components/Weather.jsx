@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import Item from "./Item";
-import Search from "./Search";
+import Controls from "./Controls";
 
 class Weather extends Component {
   render() {
-    const { onSearchInput, list } = this.props;
+    const { onSearchInput, onTempInput, list } = this.props;
     return (
       <>
-        <Search onSearchInput={onSearchInput} />
+        <Controls onSearchInput={onSearchInput} onTempInput={onTempInput} />
         {list.map((item) => {
           return <Item key={item.dt} item={item} />;
         })}
